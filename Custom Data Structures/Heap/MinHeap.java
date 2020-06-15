@@ -139,6 +139,7 @@ public class MinHeap<T>
         this.data = arr.clone();
         this.capacity = arr.length;
         this.size = arr.length;
+        this.indices.clear();
         
         //Initalizing the indices
         for(int a = 0; a < arr.length;++a)
