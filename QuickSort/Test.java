@@ -1,17 +1,37 @@
+
+import java.util.*;
+import java.io.*;
+import CustomDataStructures.Compare.*;
+
 public class Test {
     
-    public static void main(String args[])
+    public static void main(String args[]) 
      {
-        Integer arr[] = new Integer[100];
+        Integer arr[] = new Integer[1000];
         System.out.print("The array is : ");
         for(int a = 0; a < arr.length; ++a)
         {
-            arr[a] = (int)(Math.random() * 100.0);
+            arr[a] = (int)(Math.random() * 10000.0);
             System.out.print(arr[a] + ", ");
         }
 
-        QuickSort<Integer> sort = new QuickSort<Integer>();
+        /*Integer arr[] = readFromFile("Assignment.txt");
+        SelectPivot<Integer> medianOfThree = new SelectPivot<Integer>()
+        {
+            @Override
+            public int selectPivot(Integer arr[], int l, int r)
+            {
+                int first = arr[l];
+                int last = arr[r];
+                int mid = arr[(r-l) / 2];
+
+                return first>last ? (last>mid ? r : ((r-l)/2)) : (first>mid?l:((r-l)/2));
+            }
+        };*/
+
+        QuickSort<Integer> sort = new QuickSort<Integer>(new DefaultCompare<Integer>());
         sort.sort(arr, sort.randomPivot);
+        System.out.println("Number of comparisons = " + sort.numOfComparisons);
 
         System.out.println("\nAfter sorting: ");
         for(Integer e : arr)
@@ -32,4 +52,22 @@ public class Test {
 
         return true;
     }
+
+    private static Integer[] readFromFile(String path) throws IOException
+    {
+        ArrayList<Integer> data = new ArrayList<Integer>();
+
+        File file = new File(path);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+
+        String line = "";
+        while((line = reader.readLine()) != null)
+        {
+            data.add(Integer.parseInt(line));
+        }
+        reader.close();
+
+        return data.toArray(new Integer[data.size()]);
+    }
+
 }

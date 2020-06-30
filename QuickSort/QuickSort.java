@@ -1,14 +1,18 @@
 import java.util.*;
 
+import CustomDataStructures.Compare.Compare;
 
 //An interface for pivot selection
-interface SelectPivot<T extends Comparable<T>>
+interface SelectPivot<T>
 { 
     int selectPivot(T arr[], int l, int r); //Returns the index of the pivot element
 }
 
-class QuickSort<T extends Comparable<T>>
+class QuickSort<T>
 {
+    
+    long numOfComparisons = 0;
+    
     //Creating some anonymous classes for pivot selection
     SelectPivot<T> randomPivot = new SelectPivot<T>(){
 
@@ -40,8 +44,13 @@ class QuickSort<T extends Comparable<T>>
             return r;
         }
     }; //Returns the last element of the array as the pivot
+
+    private Compare<T> cmp; //The interface to be used for comparing elements
     
-    QuickSort() {}
+    QuickSort(Compare<T> comparisonInterface) 
+    {
+        this.cmp = comparisonInterface;
+    }
 
     void sort(T arr[], SelectPivot<T> pivotSelection)
     {
@@ -49,9 +58,11 @@ class QuickSort<T extends Comparable<T>>
     }
 
     private void quickSort(T arr[], int l, int r, SelectPivot<T> pivotSelection)
-    {
+    {   
         //The base case
         if(l>=r || l < 0 || r > arr.length) return ;
+
+        numOfComparisons += r-l;
 
         //Getting the pivot
         int pivotIndex = pivotSelection == null ? randomPivot.selectPivot(arr, l, r) : pivotSelection.selectPivot(arr, l, r);
@@ -79,7 +90,7 @@ class QuickSort<T extends Comparable<T>>
         int i = l;
         for(int j = l+1; j <= r; ++j)
         {
-            if(arr[j].compareTo(arr[l]) < 0) swap(arr, ++i, j);
+            if(cmp.compare(arr[j], arr[l]) < 0) swap(arr, ++i, j);
         }
 
         //Placing the pivot element in its right place
