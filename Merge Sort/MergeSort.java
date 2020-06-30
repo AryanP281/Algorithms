@@ -1,10 +1,16 @@
+
 import java.util.Arrays;
+import CustomDataStructures.Compare.Compare;
 
-
-class MergeSort<T extends Comparable<T>>
+class MergeSort<T>
 {
 
-    MergeSort() {}
+    private Compare<T> cmp; //The interface to be used for comparing the elements
+
+    MergeSort(Compare<T> comparisonInterface) 
+    {
+        this.cmp = comparisonInterface;
+    }
 
     private void merge(T arr[], int l, int r, int m)
     {
@@ -30,7 +36,7 @@ class MergeSort<T extends Comparable<T>>
                continue;
            }
 
-           if(p1[i].compareTo(p2[j]) < 0)
+           if(cmp.compare(p1[i], p2[j]) < 0)
            {
                 arr[k] = p1[i];
                 ++i;

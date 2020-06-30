@@ -1,3 +1,7 @@
+
+
+import CustomDataStructures.Compare.*;
+
 public class Test {
 
     public static void main(String args[])
@@ -6,11 +10,11 @@ public class Test {
         System.out.println("Before Sorting:");
         for(short a = 0; a < arr.length; ++a)
         {
-            arr[a] = (int)(Math.random() * 1000);
+            arr[a] = (int)(Math.random() * 100000);
             System.out.print(arr[a] + ", ");
         }
 
-        MergeSort<Integer> sorter = new MergeSort<Integer>();
+        MergeSort<Integer> sorter = new MergeSort<Integer>(new DefaultCompare<Integer>());
         sorter.mergeSort(arr, 0, arr.length-1);
 
         System.out.println("\nAfter Merge sorting: ");
@@ -18,7 +22,17 @@ public class Test {
         {
             System.out.print(i + ", ");
         }
+        System.out.println("\nSorted ? " + sorted(arr));
+    }
 
+    private static boolean sorted(Integer arr[])
+    {
+        for(int a = 1; a < arr.length; ++a)
+        {
+            if(arr[a] - arr[a-1] < 0) return false;
+        }
+
+        return true;
     }
     
 }
